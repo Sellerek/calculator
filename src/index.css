@@ -1,32 +1,18 @@
 @font-face {
-  font-family: "SamsungSharpSans-Bold";
-  src: url("./fonts/SamsungSharpSans-Bold.eot"); /* IE9 Compat Modes */
-  src: url("./fonts/SamsungSharpSans-Bold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    url("./fonts/SamsungSharpSans-Bold.otf") format("opentype"), /* Open Type Font */
-    url("./fonts/SamsungSharpSans-Bold.svg") format("svg"), /* Legacy iOS */
-    url("./fonts/SamsungSharpSans-Bold.ttf") format("truetype"), /* Safari, Android, iOS */
-    url("./fonts/SamsungSharpSans-Bold.woff") format("woff"), /* Modern Browsers */
-    url("./fonts/SamsungSharpSans-Bold.woff2") format("woff2"); /* Modern Browsers */
-  font-weight: normal;
+  font-family: "SamsungSharpSans";
+  src: url("./fonts/SamsungSharpSansBd.woff2") format("woff2");
+  font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-    font-family: "SamsungSharpSans-Regular";
-    src: url("./fonts/SamsungSharpSans-Regular.eot"); /* IE9 Compat Modes */
-    src: url("./fonts/SamsungSharpSans-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-      url("./fonts/SamsungSharpSans-Regular.otf") format("opentype"), /* Open Type Font */
-      url("./fonts/SamsungSharpSans-Regular.svg") format("svg"), /* Legacy iOS */
-      url("./fonts/SamsungSharpSans-Regular.ttf") format("truetype"), /* Safari, Android, iOS */
-      url("./fonts/SamsungSharpSans-Regular.woff") format("woff"), /* Modern Browsers */
-      url("./fonts/SamsungSharpSans-Regular.woff2") format("woff2"); /* Modern Browsers */
-    font-weight: normal;
-    font-style: normal;
-  }
-
-
+  font-family: "SamsungSharpSans";
+  src: url("./fonts/SamsungOne-400.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
 
 body {
   margin: 0;
-  font-family: "SamsungSharpSans", sans-serif;
+  font-family: "SamsungSharpSans", arial;
 }
