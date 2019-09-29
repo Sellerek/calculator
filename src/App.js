@@ -5,7 +5,7 @@ import { Input } from "./components/Input";
 import { Result } from "./components/Result";
 import * as math from "mathjs";
 
-class App extends Component {
+class Calculator extends Component {
   state = {
     input: "",
     result: ""
@@ -16,7 +16,9 @@ class App extends Component {
   addToInput = val => {
     const { input } = this.state;
 
-    this.setState({ input: input === "0" ? String(val) : input + val });
+    this.setState({
+      input: input === "0" ? String(val) : input + val
+    });
   };
 
   // Making calculation
@@ -62,6 +64,60 @@ class App extends Component {
     });
   };
 
+  inputDot = () => {
+    const { input } = this.state;
+
+    if (!/\./.test(input)) {
+      this.setState({
+        input: input + "."
+      });
+    }
+  };
+
+  handleKeyDown = event => {
+    const CalculatorOperators = {
+      "*": "*",
+      "/": "/",
+      "-": "-",
+      "+": "+"
+    };
+
+    let { key } = event;
+
+    if (key === "Enter") key = "=";
+
+    if (/\d/.test(key)) {
+      event.preventDefault();
+      this.addToInput(parseInt(key, 10));
+    } else if (key in CalculatorOperators) {
+      event.preventDefault();
+      this.addToInput(key);
+    } else if (key === "=") {
+      event.preventDefault();
+      this.handleEqual();
+    } else if (key === ".") {
+      event.preventDefault();
+      this.inputDot();
+    } else if (key === "%") {
+      event.preventDefault();
+      this.inputPercent();
+    } else if (key === "Backspace") {
+      event.preventDefault();
+      this.clearLastChar();
+    } else if (key === "Delete") {
+      event.preventDefault();
+      this.clearDisplay();
+    }
+  };
+
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyDown);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyDown);
+  }
+
   render() {
     return (
       <div className="app">
@@ -72,13 +128,13 @@ class App extends Component {
             <Button handleClick={this.clearLastChar}>C</Button>
             <Button handleClick={this.toggleSign}>+/-</Button>
             <Button handleClick={this.inputPercent}>%</Button>
-            <Button handleClick={this.addToInput}>/</Button>
+            <Button handleClick={() => this.addToInput("/")}>÷</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>1</Button>
             <Button handleClick={this.addToInput}>2</Button>
             <Button handleClick={this.addToInput}>3</Button>
-            <Button handleClick={this.addToInput}>*</Button>
+            <Button handleClick={() => this.addToInput("*")}>x</Button>
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>4</Button>
@@ -94,7 +150,7 @@ class App extends Component {
           </div>
           <div className="row">
             <Button handleClick={this.addToInput}>0</Button>
-            <Button handleClick={this.addToInput}>.</Button>
+            <Button handleClick={() => this.addToInput(".")}>,</Button>
             <Button handleClick={this.clearDisplay}>DEL</Button>
             <Button handleClick={this.handleEqual}>=</Button>
           </div>
@@ -104,4 +160,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Calculator;
