@@ -92,21 +92,12 @@ const Calculator = () => {
     }
   };
 
-  // useEffect(() => {
-  //   document.addEventListener("keydown", handleKeyDown);
-  //   return () => {
-  //     document.removeEventListener("keydown", handleKeyDown);
-  //   };
-  // });
-
-
-  componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
-  }
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  });
 
   return (
     <div className="app">
