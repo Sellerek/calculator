@@ -92,13 +92,6 @@ const Calculator = () => {
     }
   };
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  });
-
   return (
     <div className="app">
       <div className="calc-wrapper">
