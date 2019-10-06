@@ -1,5 +1,7 @@
 # Calculator
 
+![Calculator](./calc_mobile.png)
+
 The react-calculator app is a simple app.
 The app provides standard, calculator functionality.
 
