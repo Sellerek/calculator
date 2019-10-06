@@ -1,80 +1,60 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import { Button } from "./components/Button";
 import { Input } from "./components/Input";
 import { Result } from "./components/Result";
 import * as math from "mathjs";
 
-class Calculator extends Component {
-  state = {
-    input: "",
-    result: ""
-  };
+const Calculator = () => {
+  const [input, setInput] = useState("0");
+  const [result, setResult] = useState("");
 
   // Adding number, operator to "Input" section
 
-  addToInput = val => {
-    const { input } = this.state;
-
-    this.setState({
-      input: input === "0" ? String(val) : input + val
-    });
+  const addToInput = val => {
+    input === "0" ? setInput(String(val)) : setInput(input + val);
   };
 
   // Making calculation
 
-  handleEqual = () => {
-    this.setState({ result: math.evaluate(this.state.input) });
+  const handleEqual = () => {
+    setResult(math.evaluate(input));
   };
 
   // clear last character
 
-  clearLastChar = () => {
-    const { input } = this.state;
-
-    this.setState({
-      input: input.substring(0, input.length - 1) || "0"
-    });
+  const clearLastChar = () => {
+    setInput(input.substring(0, input.length - 1) || "0");
   };
 
   // Clear all from input/result
 
-  clearDisplay = () => {
-    this.setState({ input: "", result: "" });
+  const clearDisplay = () => {
+    setInput("");
+    setResult("");
   };
 
   // Switch between positive and negative number
 
-  toggleSign = () => {
-    const { input } = this.state;
-
-    this.setState({
-      input: input.charAt(0) === "-" ? input.substr(1) : "-" + input
-    });
+  const toggleSign = () => {
+    input.charAt(0) === "-" ? setInput(input.substr(1)) : setInput("-" + input);
   };
 
   // Percentage
 
-  inputPercent = () => {
-    const { input } = this.state;
+  const inputPercent = () => {
     const value = parseFloat(input);
 
-    this.setState({
-      input: String(value / 100)
-    });
+    setInput(String(value / 100));
   };
 
-  inputDot = () => {
-    const { input } = this.state;
-
+  const inputDot = () => {
     if (!/\./.test(input)) {
-      this.setState({
-        input: input + "."
-      });
+      setInput(input + ".");
     }
   };
 
-  handleKeyDown = event => {
+  const handleKeyDown = event => {
     const CalculatorOperators = {
       "*": "*",
       "/": "/",
@@ -84,31 +64,41 @@ class Calculator extends Component {
 
     let { key } = event;
 
-    if (key === "Enter") key = "=";
+    if (key === "Enter") {
+      key = "=";
+    }
 
     if (/\d/.test(key)) {
       event.preventDefault();
-      this.addToInput(parseInt(key, 10));
+      addToInput(parseInt(key, 10));
     } else if (key in CalculatorOperators) {
       event.preventDefault();
-      this.addToInput(key);
+      addToInput(key);
     } else if (key === "=") {
       event.preventDefault();
-      this.handleEqual();
+      handleEqual();
     } else if (key === ".") {
       event.preventDefault();
-      this.inputDot();
+      inputDot();
     } else if (key === "%") {
       event.preventDefault();
-      this.inputPercent();
+      inputPercent();
     } else if (key === "Backspace") {
       event.preventDefault();
-      this.clearLastChar();
+      clearLastChar();
     } else if (key === "Delete") {
       event.preventDefault();
-      this.clearDisplay();
+      clearDisplay();
     }
   };
+
+  // useEffect(() => {
+  //   document.addEventListener("keydown", handleKeyDown);
+  //   return () => {
+  //     document.removeEventListener("keydown", handleKeyDown);
+  //   };
+  // });
+
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyDown);
@@ -118,46 +108,44 @@ class Calculator extends Component {
     document.removeEventListener("keydown", this.handleKeyDown);
   }
 
-  render() {
-    return (
-      <div className="app">
-        <div className="calc-wrapper">
-          <Input input={this.state.input} />
-          <Result result={this.state.result} />
-          <div className="row">
-            <Button handleClick={this.clearLastChar}>C</Button>
-            <Button handleClick={this.toggleSign}>+/-</Button>
-            <Button handleClick={this.inputPercent}>%</Button>
-            <Button handleClick={() => this.addToInput("/")}>÷</Button>
-          </div>
-          <div className="row">
-            <Button handleClick={this.addToInput}>1</Button>
-            <Button handleClick={this.addToInput}>2</Button>
-            <Button handleClick={this.addToInput}>3</Button>
-            <Button handleClick={() => this.addToInput("*")}>x</Button>
-          </div>
-          <div className="row">
-            <Button handleClick={this.addToInput}>4</Button>
-            <Button handleClick={this.addToInput}>5</Button>
-            <Button handleClick={this.addToInput}>6</Button>
-            <Button handleClick={this.addToInput}>-</Button>
-          </div>
-          <div className="row">
-            <Button handleClick={this.addToInput}>7</Button>
-            <Button handleClick={this.addToInput}>8</Button>
-            <Button handleClick={this.addToInput}>9</Button>
-            <Button handleClick={this.addToInput}>+</Button>
-          </div>
-          <div className="row">
-            <Button handleClick={this.addToInput}>0</Button>
-            <Button handleClick={() => this.addToInput(".")}>,</Button>
-            <Button handleClick={this.clearDisplay}>DEL</Button>
-            <Button handleClick={this.handleEqual}>=</Button>
-          </div>
+  return (
+    <div className="app">
+      <div className="calc-wrapper">
+        <Input input={input} />
+        <Result result={result} />
+        <div className="row">
+          <Button handleClick={clearLastChar}>C</Button>
+          <Button handleClick={toggleSign}>+/-</Button>
+          <Button handleClick={inputPercent}>%</Button>
+          <Button handleClick={() => addToInput("/")}>÷</Button>
+        </div>
+        <div className="row">
+          <Button handleClick={addToInput}>1</Button>
+          <Button handleClick={addToInput}>2</Button>
+          <Button handleClick={addToInput}>3</Button>
+          <Button handleClick={() => addToInput("*")}>x</Button>
+        </div>
+        <div className="row">
+          <Button handleClick={addToInput}>4</Button>
+          <Button handleClick={addToInput}>5</Button>
+          <Button handleClick={addToInput}>6</Button>
+          <Button handleClick={addToInput}>-</Button>
+        </div>
+        <div className="row">
+          <Button handleClick={addToInput}>7</Button>
+          <Button handleClick={addToInput}>8</Button>
+          <Button handleClick={addToInput}>9</Button>
+          <Button handleClick={addToInput}>+</Button>
+        </div>
+        <div className="row">
+          <Button handleClick={addToInput}>0</Button>
+          <Button handleClick={() => addToInput(".")}>,</Button>
+          <Button handleClick={clearDisplay}>DEL</Button>
+          <Button handleClick={handleEqual}>=</Button>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default Calculator;
